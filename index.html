@@ -27,6 +27,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,sans-seri
 .nn{flex:1;font-size:11.5px;color:#c8cde0;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .nc{background:#e8590c;color:#fff;border-radius:10px;font-size:10px;font-weight:800;padding:1px 7px;flex-shrink:0}
 .nc.pending{background:#2e2e4a;color:#4a5568}
+.nc-r{background:#3b5bdb;color:#fff;border-radius:10px;font-size:10px;font-weight:800;padding:1px 7px;flex-shrink:0}
 #sb-foot{padding:10px 14px;border-top:1px solid #2e2e4a;font-size:10px;color:#4a4a6a}
 
 /* ── Main ── */
@@ -100,6 +101,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,sans-seri
 .btn-cdn{display:inline-flex;align-items:center;gap:5px;background:#059669;color:#fff;text-decoration:none;padding:6px 12px;border-radius:7px;font-size:10px;font-weight:700;transition:background .12s}
 .btn-cdn:hover{background:#047857}
 
+/* ── REVISAR card — pendiente de referencia ── */
+.card.card-revisar{border-color:#93c5fd;background:#fff}
+.card.card-revisar .ch{background:linear-gradient(135deg,#eff6ff 0%,#f7f9ff 100%)}
+.revisar-note{background:#eff6ff;border-top:1px dashed #93c5fd;padding:8px 16px;font-size:10.5px;color:#1d4ed8;display:flex;align-items:center;gap:7px}
+.revisar-note strong{font-weight:800}
+
+/* ── Filter buttons ── */
+.filter-bar{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.fbtn{background:#f1f5f9;border:1px solid #dde3f0;color:#475569;border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;transition:all .12s}
+.fbtn:hover{background:#e0e7ff;border-color:#a5b4fc;color:#3730a3}
+.fbtn.active{background:#3b5bdb;border-color:#3b5bdb;color:#fff}
+.fbtn.active-ok{background:#059669;border-color:#059669;color:#fff}
+
 /* ── Figma notice ── */
 .figma-notice{background:#faf5ff;border:1px solid #e9d5ff;border-radius:8px;padding:9px 14px;margin-bottom:14px;font-size:11px;color:#6d28d9;display:flex;align-items:center;gap:8px}
 
@@ -171,13 +185,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,sans-seri
 <li onclick="showPage(12)" id="nav-12" class="pending-nav"><span class="ne">⏱️</span><span class="nn">Webinar Control Horario</span><span class="nc pending">—</span></li>
 <li onclick="showPage(13)" id="nav-13" class="pending-nav"><span class="ne">🧾</span><span class="nn">Factura electrónica</span><span class="nc pending">—</span></li>
 <li onclick="showPage(14)" id="nav-14" class=""><span class="ne">👤</span><span class="nn">Autónomos</span><span class="nc">9</span></li>
-<li onclick="showPage(15)" id="nav-15" class=""><span class="ne">🎯</span><span class="nn">Pide Demo</span><span class="nc">18</span></li>
-<li onclick="showPage(16)" id="nav-16" class=""><span class="ne">👥</span><span class="nn">RRHH</span><span class="nc">9</span></li>
-<li onclick="showPage(17)" id="nav-17" class=""><span class="ne">✅</span><span class="nn">LP Verifactu Pintores</span><span class="nc">11</span></li>
-<li onclick="showPage(18)" id="nav-18" class=""><span class="ne">📄</span><span class="nn">Facturación Verifactu</span><span class="nc">10</span></li>
+<li onclick="showPage(15)" id="nav-15" class=""><span class="ne">🎯</span><span class="nn">Pide Demo</span><span class="nc-r">18</span></li>
+<li onclick="showPage(16)" id="nav-16" class=""><span class="ne">👥</span><span class="nn">RRHH</span><span class="nc-r">9</span></li>
+<li onclick="showPage(17)" id="nav-17" class=""><span class="ne">✅</span><span class="nn">LP Verifactu Pintores</span><span class="nc-r">11</span></li>
+<li onclick="showPage(18)" id="nav-18" class=""><span class="ne">📄</span><span class="nn">Facturación Verifactu</span><span class="nc-r">10</span></li>
 <li onclick="showPage(19)" id="nav-19" class=""><span class="ne">💰</span><span class="nn">Pricing EN</span><span class="nc">1</span></li>
-<li onclick="showPage(20)" id="nav-20" class=""><span class="ne">🏭</span><span class="nn">LP ERP Ortocanis</span><span class="nc">9</span></li>
-<li onclick="showPage(21)" id="nav-21" class=""><span class="ne">📚</span><span class="nn">LP Ebook Verifactu Pymes</span><span class="nc">3</span></li>
+<li onclick="showPage(20)" id="nav-20" class=""><span class="ne">🏭</span><span class="nn">LP ERP Ortocanis</span><span class="nc-r">9</span></li>
+<li onclick="showPage(21)" id="nav-21" class=""><span class="ne">📚</span><span class="nn">LP Ebook Verifactu Pymes</span><span class="nc-r">3</span></li>
 </ul></nav>
   <div id="sb-foot">111 incidencias &nbsp;·&nbsp; 15/22 auditadas</div>
 </div>
@@ -245,6 +259,18 @@ function refPanel(row){
   return `<div class="ip"><div class="il cor"><span class="dot"></span>✅ Imagen correcta (Referencia)</div>${inner}</div>`;
 }
 
+let activeFilter = 'all';
+function filterCards(type){
+  activeFilter = type;
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active','active-ok'));
+  const btn = document.getElementById('fbtn-'+type);
+  if(btn) btn.classList.add(type==='revisar'?'active':(type==='reviewed'?'active-ok':'active'));
+  document.querySelectorAll('.card[data-revisar]').forEach(card=>{
+    const r = card.dataset.revisar==='1';
+    card.style.display = (type==='all'||(type==='revisar'&&r)||(type==='reviewed'&&!r)) ? '' : 'none';
+  });
+}
+
 function openSidebar(){
   document.getElementById('sb').classList.add('open');
   document.getElementById('overlay').classList.add('open');
@@ -287,10 +313,20 @@ function showPage(idx){
 
   const langs = [...new Set(p.rows.map(r => r.idioma))];
   const hasFigma = p.rows.some(r => r.ref_type==='figma');
+  const revisarCt = p.rows.filter(r=>r.estado==='REVISAR').length;
+  const reviewedCt = p.rows.length - revisarCt;
+  activeFilter = 'all';
   let html = '';
 
   if(hasFigma){
     html += `<div class="figma-notice">🎨 <span>Esta landing tiene referencias en <b>Figma</b> — asegúrate de estar logueada en Figma para verlas.</span></div>`;
+  }
+
+  if(revisarCt > 0){
+    html += `<div class="filter-bar">
+      <button class="fbtn active" id="fbtn-all"    onclick="filterCards('all')">🔍 Todas (${p.rows.length})</button>
+      <button class="fbtn"        id="fbtn-revisar" onclick="filterCards('revisar')">📋 Sin referencia (${revisarCt})</button>
+      ${reviewedCt>0?`<button class="fbtn" id="fbtn-reviewed" onclick="filterCards('reviewed')">✅ Revisadas (${reviewedCt})</button>`:''}</div>`;
   }
 
   const totalEs = p.rows.filter(r=>r.idioma==='ES').length;
@@ -313,7 +349,8 @@ function showPage(idx){
       ${langRows.map(row => {
         const sc   = SC[row.estado]  || '#6c757d';
         const sevc = SEV[row.sev]    || '#6c757d';
-        return `<div class="card card-${lc}">
+        const isRevisar = row.estado === 'REVISAR';
+        return `<div class="card ${isRevisar?'card-revisar':'card-'+lc}" data-revisar="${isRevisar?'1':'0'}">
           <div class="ch">
             ${langPip(row.idioma)}
             <span class="sn"><span class="modulo-label">Módulo:</span> ${row.seccion}</span>
@@ -324,7 +361,8 @@ function showPage(idx){
             ${aiPanel(row, p.ai_url)}
             ${refPanel(row)}
           </div>
-          ${row.notas ? `<div class="cf"><strong>Nota:</strong> ${row.notas}</div>` : ''}
+          ${isRevisar ? `<div class="revisar-note">📋 <strong>Pendiente de referencia</strong> — añade el link al mockup correcto en el Excel (columna F) y avísame para regenerar.</div>` : ''}
+          ${row.notas && !isRevisar ? `<div class="cf"><strong>Nota:</strong> ${row.notas}</div>` : ''}
         </div>`;
       }).join('')}
     </div>`;
