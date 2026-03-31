@@ -10,21 +10,40 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,sans-seri
 
 /* ── Sidebar ── */
 #sb{width:260px;min-width:260px;background:#1a1a2e;display:flex;flex-direction:column;box-shadow:2px 0 12px rgba(0,0,0,.25)}
-#sb-top{padding:18px 16px 12px;border-bottom:1px solid #2e2e4a}
+#sb-top{padding:16px 16px 12px;border-bottom:1px solid #2e2e4a}
 #sb-top h1{font-size:12px;font-weight:800;color:#fff;letter-spacing:.8px;text-transform:uppercase}
 #sb-top p{font-size:10px;color:#6b6b8a;margin-top:3px}
-#sb-legend{padding:8px 14px;border-bottom:1px solid #2e2e4a;display:flex;gap:12px;flex-wrap:wrap}
-.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:2px}
-.leg-dot.es{background:#10b981}.leg-dot.en{background:#a78bfa}.leg-dot.pend{background:#4a4a6a}
-.leg-label{font-size:10px;color:#9ca3af;display:flex;align-items:center;gap:4px}
+/* ── Progress bar ── */
+#sb-progress{padding:10px 14px;border-bottom:1px solid #2e2e4a}
+#sb-progress .prog-row{display:flex;justify-content:space-between;margin-bottom:5px}
+#sb-progress .prog-label{font-size:9.5px;font-weight:700;letter-spacing:.4px}
+#sb-progress .prog-label.ok{color:#10b981}
+#sb-progress .prog-label.rev{color:#3b5bdb}
+#sb-progress .prog-label.pend{color:#4a5568}
+#sb-progress .prog-bar{height:5px;background:#2e2e4a;border-radius:4px;overflow:hidden;display:flex;gap:1px}
+#sb-progress .prog-seg{height:100%;transition:width .3s}
+#sb-progress .prog-seg.ok{background:#10b981}
+#sb-progress .prog-seg.rev{background:#3b5bdb}
+#sb-progress .prog-seg.pend{background:#2e2e4a}
+/* ── Nav states ── */
 #sb nav{flex:1;overflow-y:auto;padding:6px 0}
 #sb nav ul{list-style:none}
 #sb nav li{display:flex;align-items:center;gap:8px;padding:9px 14px;cursor:pointer;border-left:3px solid transparent;transition:all .12s}
 #sb nav li:hover{background:rgba(255,255,255,.05)}
-#sb nav li.active{background:rgba(91,141,238,.15);border-left-color:#5b8dee}
-#sb nav li.pending-nav .nn{color:#4a5568;}
+#sb nav li.active{background:rgba(91,141,238,.15);border-left-color:#5b8dee!important}
+/* revisada = verde */
+#sb nav li.nav-reviewed{border-left-color:#10b981}
+#sb nav li.nav-reviewed .nn{color:#6ee7b7}
+/* necesita revisión = azul con fondo */
+#sb nav li.nav-needs-review{border-left-color:#3b5bdb;background:rgba(59,91,219,.10)}
+#sb nav li.nav-needs-review .nn{color:#93c5fd;font-weight:700}
+/* sin auditar = gris */
+#sb nav li.pending-nav{border-left-color:transparent}
+#sb nav li.pending-nav .nn{color:#4a5568}
 .ne{font-size:14px;width:18px;text-align:center}
 .nn{flex:1;font-size:11.5px;color:#c8cde0;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* estado dot antes del nombre */
+.rev-status{font-size:9px;flex-shrink:0;margin-right:-2px}
 .nc{background:#e8590c;color:#fff;border-radius:10px;font-size:10px;font-weight:800;padding:1px 7px;flex-shrink:0}
 .nc.pending{background:#2e2e4a;color:#4a5568}
 .nc-r{background:#3b5bdb;color:#fff;border-radius:10px;font-size:10px;font-weight:800;padding:1px 7px;flex-shrink:0}
@@ -165,33 +184,40 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,sans-seri
     <h1>Auditoría Imágenes</h1>
     <p>Holded AI Site vs holded.com</p>
   </div>
-  <div id="sb-legend">
-    <span class="leg-label"><span class="leg-dot es"></span> ES</span>
-    <span class="leg-label"><span class="leg-dot en"></span> EN</span>
-    <span class="leg-label"><span class="leg-dot pend"></span> Pendiente</span>
+  <div id="sb-progress">
+    <div class="prog-row">
+      <span class="prog-label ok">✅ 9 revisadas</span>
+      <span class="prog-label rev">📋 6 por revisar</span>
+      <span class="prog-label pend">⏳ 7 pendientes</span>
+    </div>
+    <div class="prog-bar">
+      <div class="prog-seg ok"  style="width:41%"></div>
+      <div class="prog-seg rev" style="width:27%"></div>
+      <div class="prog-seg pend"style="width:32%"></div>
+    </div>
   </div>
-  <nav><ul><li onclick="showPage(0)" id="nav-0" class=""><span class="ne">🏠</span><span class="nn">Home ES</span><span class="nc">8</span></li>
-<li onclick="showPage(1)" id="nav-1" class=""><span class="ne">🏠</span><span class="nn">Home EN</span><span class="nc">9</span></li>
-<li onclick="showPage(2)" id="nav-2" class=""><span class="ne">💰</span><span class="nn">Precios</span><span class="nc">1</span></li>
-<li onclick="showPage(3)" id="nav-3" class=""><span class="ne">📄</span><span class="nn">Facturación</span><span class="nc">6</span></li>
-<li onclick="showPage(4)" id="nav-4" class=""><span class="ne">🏢</span><span class="nn">Asesorías</span><span class="nc">5</span></li>
-<li onclick="showPage(5)" id="nav-5" class=""><span class="ne">📊</span><span class="nn">Contabilidad</span><span class="nc">8</span></li>
-<li onclick="showPage(6)" id="nav-6" class="pending-nav"><span class="ne">📝</span><span class="nn">Crea tu factura</span><span class="nc pending">—</span></li>
-<li onclick="showPage(7)" id="nav-7" class="pending-nav"><span class="ne">🏭</span><span class="nn">ERP</span><span class="nc pending">—</span></li>
-<li onclick="showPage(8)" id="nav-8" class="pending-nav"><span class="ne">📊</span><span class="nn">Contabilidad no gcta</span><span class="nc pending">—</span></li>
-<li onclick="showPage(9)" id="nav-9" class="pending-nav"><span class="ne">✅</span><span class="nn">Verifactu OT Pintores</span><span class="nc pending">—</span></li>
-<li onclick="showPage(10)" id="nav-10" class="pending-nav"><span class="ne">📚</span><span class="nn">LP Ebook Asesorías</span><span class="nc pending">—</span></li>
-<li onclick="showPage(11)" id="nav-11" class=""><span class="ne">💳</span><span class="nn">Wallet / Cuenta empresa</span><span class="nc">4</span></li>
-<li onclick="showPage(12)" id="nav-12" class="pending-nav"><span class="ne">⏱️</span><span class="nn">Webinar Control Horario</span><span class="nc pending">—</span></li>
-<li onclick="showPage(13)" id="nav-13" class="pending-nav"><span class="ne">🧾</span><span class="nn">Factura electrónica</span><span class="nc pending">—</span></li>
-<li onclick="showPage(14)" id="nav-14" class=""><span class="ne">👤</span><span class="nn">Autónomos</span><span class="nc">9</span></li>
-<li onclick="showPage(15)" id="nav-15" class=""><span class="ne">🎯</span><span class="nn">Pide Demo</span><span class="nc-r">18</span></li>
-<li onclick="showPage(16)" id="nav-16" class=""><span class="ne">👥</span><span class="nn">RRHH</span><span class="nc-r">9</span></li>
-<li onclick="showPage(17)" id="nav-17" class=""><span class="ne">✅</span><span class="nn">LP Verifactu Pintores</span><span class="nc-r">11</span></li>
-<li onclick="showPage(18)" id="nav-18" class=""><span class="ne">📄</span><span class="nn">Facturación Verifactu</span><span class="nc-r">10</span></li>
-<li onclick="showPage(19)" id="nav-19" class=""><span class="ne">💰</span><span class="nn">Pricing EN</span><span class="nc">1</span></li>
-<li onclick="showPage(20)" id="nav-20" class=""><span class="ne">🏭</span><span class="nn">LP ERP Ortocanis</span><span class="nc-r">9</span></li>
-<li onclick="showPage(21)" id="nav-21" class=""><span class="ne">📚</span><span class="nn">LP Ebook Verifactu Pymes</span><span class="nc-r">3</span></li>
+  <nav><ul><li onclick="showPage(0)" id="nav-0" class="nav-reviewed"><span class="ne">🏠</span><span class="rev-status">✅</span><span class="nn">Home ES</span><span class="nc">8</span></li>
+<li onclick="showPage(1)" id="nav-1" class="nav-reviewed"><span class="ne">🏠</span><span class="rev-status">✅</span><span class="nn">Home EN</span><span class="nc">9</span></li>
+<li onclick="showPage(2)" id="nav-2" class="nav-reviewed"><span class="ne">💰</span><span class="rev-status">✅</span><span class="nn">Precios</span><span class="nc">1</span></li>
+<li onclick="showPage(3)" id="nav-3" class="nav-reviewed"><span class="ne">📄</span><span class="rev-status">✅</span><span class="nn">Facturación</span><span class="nc">6</span></li>
+<li onclick="showPage(4)" id="nav-4" class="nav-reviewed"><span class="ne">🏢</span><span class="rev-status">✅</span><span class="nn">Asesorías</span><span class="nc">5</span></li>
+<li onclick="showPage(5)" id="nav-5" class="nav-reviewed"><span class="ne">📊</span><span class="rev-status">✅</span><span class="nn">Contabilidad</span><span class="nc">8</span></li>
+<li onclick="showPage(6)" id="nav-6" class="pending-nav"><span class="ne">📝</span><span class="rev-status">⏳</span><span class="nn">Crea tu factura</span><span class="nc pending">—</span></li>
+<li onclick="showPage(7)" id="nav-7" class="pending-nav"><span class="ne">🏭</span><span class="rev-status">⏳</span><span class="nn">ERP</span><span class="nc pending">—</span></li>
+<li onclick="showPage(8)" id="nav-8" class="pending-nav"><span class="ne">📊</span><span class="rev-status">⏳</span><span class="nn">Contabilidad no gcta</span><span class="nc pending">—</span></li>
+<li onclick="showPage(9)" id="nav-9" class="pending-nav"><span class="ne">✅</span><span class="rev-status">⏳</span><span class="nn">Verifactu OT Pintores</span><span class="nc pending">—</span></li>
+<li onclick="showPage(10)" id="nav-10" class="pending-nav"><span class="ne">📚</span><span class="rev-status">⏳</span><span class="nn">LP Ebook Asesorías</span><span class="nc pending">—</span></li>
+<li onclick="showPage(11)" id="nav-11" class="nav-reviewed"><span class="ne">💳</span><span class="rev-status">✅</span><span class="nn">Wallet / Cuenta empresa</span><span class="nc">4</span></li>
+<li onclick="showPage(12)" id="nav-12" class="pending-nav"><span class="ne">⏱️</span><span class="rev-status">⏳</span><span class="nn">Webinar Control Horario</span><span class="nc pending">—</span></li>
+<li onclick="showPage(13)" id="nav-13" class="pending-nav"><span class="ne">🧾</span><span class="rev-status">⏳</span><span class="nn">Factura electrónica</span><span class="nc pending">—</span></li>
+<li onclick="showPage(14)" id="nav-14" class="nav-reviewed"><span class="ne">👤</span><span class="rev-status">✅</span><span class="nn">Autónomos</span><span class="nc">9</span></li>
+<li onclick="showPage(15)" id="nav-15" class="nav-needs-review"><span class="ne">🎯</span><span class="rev-status">📋</span><span class="nn">Pide Demo</span><span class="nc-r">18 por revisar</span></li>
+<li onclick="showPage(16)" id="nav-16" class="nav-needs-review"><span class="ne">👥</span><span class="rev-status">📋</span><span class="nn">RRHH</span><span class="nc-r">9 por revisar</span></li>
+<li onclick="showPage(17)" id="nav-17" class="nav-needs-review"><span class="ne">✅</span><span class="rev-status">📋</span><span class="nn">LP Verifactu Pintores</span><span class="nc-r">11 por revisar</span></li>
+<li onclick="showPage(18)" id="nav-18" class="nav-needs-review"><span class="ne">📄</span><span class="rev-status">📋</span><span class="nn">Facturación Verifactu</span><span class="nc-r">10 por revisar</span></li>
+<li onclick="showPage(19)" id="nav-19" class="nav-reviewed"><span class="ne">💰</span><span class="rev-status">✅</span><span class="nn">Pricing EN</span><span class="nc">1</span></li>
+<li onclick="showPage(20)" id="nav-20" class="nav-needs-review"><span class="ne">🏭</span><span class="rev-status">📋</span><span class="nn">LP ERP Ortocanis</span><span class="nc-r">9 por revisar</span></li>
+<li onclick="showPage(21)" id="nav-21" class="nav-needs-review"><span class="ne">📚</span><span class="rev-status">📋</span><span class="nn">LP Ebook Verifactu Pymes</span><span class="nc-r">3 por revisar</span></li>
 </ul></nav>
   <div id="sb-foot">111 incidencias &nbsp;·&nbsp; 15/22 auditadas</div>
 </div>
